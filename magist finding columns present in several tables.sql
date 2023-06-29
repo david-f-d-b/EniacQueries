@@ -1,0 +1,17 @@
+SELECT
+    C.COLUMN_NAME,
+    COUNT(*) AS column_count,
+    GROUP_CONCAT(T.TABLE_NAME SEPARATOR ', ') AS table_names
+FROM
+    INFORMATION_SCHEMA.TABLES AS T
+    JOIN INFORMATION_SCHEMA.COLUMNS AS C
+        ON T.TABLE_SCHEMA = C.TABLE_SCHEMA
+        AND T.TABLE_NAME = C.TABLE_NAME
+WHERE
+    T.TABLE_SCHEMA = 'magist'
+    #AND C.COLUMN_NAME = 'your_column_name'
+GROUP BY
+    C.COLUMN_NAME
+HAVING column_count > 1
+ORDER BY
+    column_count DESC;
